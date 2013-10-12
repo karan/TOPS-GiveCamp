@@ -13,6 +13,11 @@ span {
 	padding: 0px 15px;
 }
 
+.control-label {
+	font-weight: bold;
+	color: #228B22; 
+}
+
 p.lead {
 	font-size: 170%;
 	font-weight: bold;

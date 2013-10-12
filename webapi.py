@@ -4,15 +4,20 @@ import sys
 import string
 
 #sys.path.append('..')
-from flask import Flask, render_template, url_for, request, redirect, session, g
+from flask import Flask, render_template, url_for, request, redirect, session, g, Blueprint
 from werkzeug import secure_filename
-from config.py import flask_secret_key
+from config import flask_secret_key
+
+import process	# business logic happens here
 
 UPLOAD_FOLDER = './uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['csv', 'json', 'rss', 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+angularBlueprint = Blueprint('app', __name__, static_folder='/app/')
+print angularBlueprint.__dict__
+app.register_blueprint(angularBlueprint, url_prefix='/app')
 
 app.debug = True
 if app.debug:
@@ -24,21 +29,29 @@ app.secret_key = flask_secret_key
 
 @app.route("/")
 def index():
-	return "hello"
+	return render_template('index.html')
+	#redirect( url_for('static', filename='index.html'))
+	"""
+	filename = url_for('app.static', filename='index.html')
+	print "FILENAME:", filename
+	return "does not work... :("
+	"""
 
 
-@app.route('/upload.py', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
 	if request.method == 'GET':
 		return "hello"
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return "uploaded"
+	if request.method == 'POST':
+		csvfilenames = ['communityFile', 'memberFile', 'servicesFile' ]
+		for filename in csvfilenames:
+			file = request.files[filename]
+			if file and allowed_file(file.filename):
+				filename = secure_filename(file.filename)
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+				return redirect(url_for('uploaded_file',
+										filename=filename))
+	return "ERROR"
 
 def dbgFlask(msg=None):
 	dbgInfo('session', session)
