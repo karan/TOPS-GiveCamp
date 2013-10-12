@@ -70,7 +70,9 @@
 			<br><em>Created: {{offer['Last Updated']}}</em>
 			<br><em>Expires: {{offer['Expiration Date']}}</em>
 			<br><br>
-			<small ng-show="showFull">Full offer:{{offer|json}}</small>
+			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
+				<small>Full offer:{{offer|json}}</small>
+			</div>
 			<hr>
           </li>
         </ol>
