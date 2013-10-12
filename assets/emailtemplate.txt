@@ -1,0 +1,10 @@
+Dear {{first_name}},
+
+
+New Offers:
+{{list_of_new_offers}}
+
+New Requests:
+{{list_of_new_requests}}
+
+
