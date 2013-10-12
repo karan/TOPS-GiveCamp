@@ -20,7 +20,11 @@ var express = require('express');
 var app = express.createServer();
 app.use(express.logger());
 //app.use(express.static(__dirname));		// DO NOT USE IN PRODUCTION!!!!
+<<<<<<< HEAD
 app.use('/', express.static('app'));	// SHOULD I USE THIS
+=======
+app.use('/', express.static('static'));	// SHOULD I USE THIS
+>>>>>>> a3ab4c3... added quick static file server (node)
 //app.set('port', process.env.PORT || 8080);
 app.listen(port, function() {
 	console.log("Listening on " + port);
