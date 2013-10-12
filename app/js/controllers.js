@@ -25,9 +25,15 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 				$scope.errors = "Error: " + data;
 				$scope.offers = [];
 			});
-		}
-	}]);
-//);
+		};
+	}
+]);
+
+emailControllers.controller('UploadCtrl', ['$scope', 
+	function UploadCtrl($scope) {
+		$scope.testVar = "hello world";
+	}
+]);
 /*
   $scope.phones = [
     {'name': 'Nexus S',

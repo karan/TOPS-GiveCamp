@@ -1,0 +1,40 @@
+   <div class="row-fluid">
+      <div id="sidebar" class="span2">
+        <!--Sidebar content-->
+
+		Community: 
+		<select class="input-small" ng-model="community">
+		  <option value="" selected>All</option>
+		  <option value="Seattle">Seattle</option>
+		  <option value="Eastside">Eastside</option>
+		  <option value="Vashon">Vashon</option>
+		</select><br><br>
+
+		Top 
+		<select class="input-mini" ng-model="numResults" disabled="true" ng-init="200">
+		  <option value="20">20</option>
+		  <option value="100">100</option>
+		  <option value="200" selected>200</option>
+		</select> Results <br><small>(not working yet)</small><br><br>
+
+		<em>Sorted by date updated</em>
+		<br><br>
+
+		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
+
+		<br><span ng-model="errors"></span>
+
+      </div>
+
+      <div class="span10">
+        <!--Body content-->
+		<h1>Upload your files<h1>
+		<input type="file" id="file1">Upload 1st CSV</input> 
+		<br>
+		<input type="file" id="file2">Upload 2nd CSV</input>
+		<br>
+		<input type="file" id="file3">Upload 3rd CSV</input>
+		<br>
+      </div>
+    </div>
+
