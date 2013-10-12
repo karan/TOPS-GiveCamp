@@ -99,15 +99,26 @@ if __name__ == '__main__':
     curdir = os.getcwd()
     rootdir = os.path.join(curdir, '..')
     assetdir = os.path.join(rootdir, 'assets')
-    email_template = file(os.path.join(assetdir, 'emailtemplate.html')).read()
-    msgText = msgHtml = ''
+    emailHtml = file(os.path.join(assetdir, 'emailtemplate.html')).read()
+    emailText = file(os.path.join(assetdir, 'emailtemplate.txt')).read()
+    offerText = offerHtml = ''
+    reqText = reqHtml = ''
     offer_ids = offers.keys().sort(reverse=True)
+    request_ids = requests.keys().sort(reverse=True)
     numOffers = 10 > len(offer_ids) ? 10 : len(offer_ids)
     
     for i in range(numOffers):
         offerTitle = offers[offer_ids[i]]
         offerUrl = offers[offer_ids[i]]['url']
-        msgText += offerTitle + '\n'
-        msgHtml += '<li> <a href="' + offerUrl + '">' + offerTitle + ' </a></li>'
+        offerText += offerTitle + '\n'
+        offerHtml += '<li> <a href="' + offerUrl + '">' + offerTitle + ' </a></li>'
+        
+        reqTitle = requests[request_ids[i]]
+        reqUrl = requests[request_ids[i]]['url']
+        reqText += reqTitle + '\n'
+        reqHtml += '<li> <a href="' + reqUrl + '">' + reqTitle + ' </a></li>'
+    
+    emailHtml.replace('{{list_of_new_requests}}', reqHtml)
+    emailText.replace('{{list_of_new_requests}}', reqText)
     sendEmails(subject, fromAddress, email_template, full_member_data)
     
