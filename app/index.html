@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="emailApp components">
+<html lang="en" ng-app="emailApp">
 <head>
   <meta charset="utf-8">
   <title>Edit Emails</title>
@@ -7,8 +7,13 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+<!-- add more angular stuff from here: http://code.angularjs.org/1.2.0-rc.2/ -->
+<script src="http://code.angularjs.org/1.2.0-rc.2/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
+	<!--
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-<script src="https://raw.github.com/angular/angular-phonecat/b6a6df9218fa867aa14fa660f0e58c2bc3342da4/app/lib/angular/angular-route.min.js"></script>
+	<script src="lib/angular-route.min.js"></script>
+	-->
 
   <!-- CSV to JSON Converter Stuff
   <script src="js/json2.js"> </script>
@@ -18,15 +23,14 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
 </head>
-<body ng-controller="EmailListCtrl">
+<body>
     <div class="navbar">
 		<div class="navbar-inner">
 			<a class="brand" href="#">Email Dashboard</a>
-			<!--<ul class="nav">
-			<li class="active"><a href="#">Home</a></li>
-			<li><a href="#">Link</a></li>
-			<li><a href="#">Link</a></li>
-			</ul>-->
+			<ul class="nav">
+			<li><a href="/#/upload">Upload CSV</a></li>
+			<li><a href="/#/edit">Edit Email</a></li>
+			</ul>
 		</div>
     </div>
 
