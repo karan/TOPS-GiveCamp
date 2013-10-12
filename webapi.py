@@ -30,8 +30,7 @@ def index():
 @app.route('/upload.py', methods=['GET', 'POST'])
 def upload_file():
 	if request.method == 'GET':
-
-		return 
+		return "hello"
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
