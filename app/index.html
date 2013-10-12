@@ -34,7 +34,8 @@
 
 		Community: 
 		<select class="input-small" ng-model="community">
-		  <option value="Seattle" selected>Seattle</option>
+		  <option value="" selected>All</option>
+		  <option value="Seattle">Seattle</option>
 		  <option value="Eastside">Eastside</option>
 		  <option value="Vashon">Vashon</option>
 		</select><br><br>
@@ -46,7 +47,10 @@
 		  <option value="200" selected>200</option>
 		</select> Results <br><small>(not working yet)</small><br><br>
 
-		<button ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
+		<em>Sorted by date updated</em>
+		<br><br>
+
+		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
 
 		<br><span ng-model="errors"></span>
 
@@ -67,6 +71,7 @@
 			<br><em>Expires: {{offer['Expiration Date']}}</em>
 			<br><br>
 			<small ng-show="showFull">Full offer:{{offer|json}}</small>
+			<hr>
           </li>
         </ol>
 
