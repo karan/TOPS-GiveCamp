@@ -10,13 +10,7 @@
 <!-- add more angular stuff from here: http://code.angularjs.org/1.2.0-rc.2/ -->
 <script src="http://code.angularjs.org/1.2.0-rc.2/angular.min.js"></script>
 <script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
-	<!--
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-<<<<<<< HEAD
-	<script src="lib/angular-route.min.js"></script>
-	-->
-
-  <!-- CSV to JSON Converter Stuff
+	<!-- CSV to JSON Converter Stuff
   <script src="js/json2.js"> </script>
   <script src="js/csv.js"> </script>
   <script src="js/csv-to-json.js"></script>-->
@@ -37,74 +31,6 @@
 
   <div class="container-fluid">
 	<div ng-view></div>
-=======
-
-  <script src="js/json2.js"> </script>
-  <script src="js/csv.js"> </script>
-  <!--<script src="js/csv-to-json.js"></script>-->
-
-  <script src="js/controllers.js"></script>
-</head>
-<body ng-controller="EmailListCtrl">
-   <p class="lead">Email dashboard</p>
-
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
-        <!--Sidebar content-->
-
-		<span>
-        Community: 
-		<select ng-model="community">
-          <option value="Seattle">Seattle</option>
-          <option value="Eastside">Eastside</option>
-          <option value="Vashon">Vashon</option>
-        </select>
-		</span>
-
-		<span class="offset3">
-        Top 
-		<select ng-model="numResults" disabled="true" ng-init="200">
-          <option value="20">20</option>
-          <option value="100">100</option>
-          <option selected value="200">200</option>
-        </select> Results (not working yet)
-		</span>
-
-		<span class="offset6">
-		<button ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
-		</span>
-		<br><span ng-model="errors"></span>
-
-      </div>
-      <div class="span10">
-        <!--Body content-->
-
-        <ol class="offers">
-          <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
-			<h4>{{offer.Title}}</h4>
-            {{offer.Body.replace('Â', '')}}<br>
-			<br>
-            Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>
-			<br><br>Category: <em>{{offer['Top-Level Category']}}</em>
-			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
-			<br><em>Created: {{offer['Last Updated']}}</em>
-			<br><em>Expires: {{offer['Expiration Date']}}</em>
-			<br><br>
-<<<<<<< HEAD
-			<small ng-show="showFull">Full offer:{{offer|json}}</small>
-=======
-			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
-				<small>Full offer:{{offer|json}}</small>
-			</div>
-			<hr>
->>>>>>> a3ab4c3... added quick static file server (node)
-          </li>
-        </ol>
-
-      </div>
-    </div>
->>>>>>> c71bb4a... got json to show services offered along with some properties
   </div>
 
 </body>
