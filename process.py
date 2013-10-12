@@ -120,5 +120,5 @@ if __name__ == '__main__':
     
     emailHtml.replace('{{list_of_new_requests}}', reqHtml)
     emailText.replace('{{list_of_new_requests}}', reqText)
-    sendEmails(subject, fromAddress, email_template, full_member_data)
+    sendEmails(subject, fromAddress, emailHtml, emailText, full_member_data)
     
