@@ -1,2 +1,6 @@
 *.csv
+<<<<<<< HEAD
 *.json
+=======
+*~
+>>>>>>> 220a5d8... basic changes
