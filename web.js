@@ -1,5 +1,7 @@
 var fs = require('fs');
 var http = require('http');
+var process = require('process')
+
 var port = 5000;
 var PRODUCTION = true;
 
@@ -16,13 +18,15 @@ console.log("Listening on " + port);
 */
 
 //var jade = require('jade');
+
+
 var express = require('express');
 var app = express.createServer();
 app.use(express.logger());
 //app.use(express.static(__dirname));		// DO NOT USE IN PRODUCTION!!!!
 app.use('/', express.static('app'));	// SHOULD I USE THIS
 //app.set('port', process.env.PORT || 8080);
-app.listen(port, function() {
+app.listen(process.env.PORT || port, function() {
 	console.log("Listening on " + port);
 
 	function addStaticRoute(route, filename) {
