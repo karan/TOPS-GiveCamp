@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Edit Emails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/app.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 
   <script src="js/json2.js"> </script>
@@ -14,44 +16,49 @@
   <script src="js/controllers.js"></script>
 </head>
 <body ng-controller="EmailListCtrl">
-   <p class="lead">Email dashboard</p>
+    <div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Email Dashboard</a>
+			<!--<ul class="nav">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">Link</a></li>
+			<li><a href="#">Link</a></li>
+			</ul>-->
+		</div>
+    </div>
 
   <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
+   <div class="row-fluid">
+      <div id="sidebar" class="span2">
         <!--Sidebar content-->
 
-		<span>
-        Community: 
-		<select ng-model="community">
-          <option value="Seattle">Seattle</option>
-          <option value="Eastside">Eastside</option>
-          <option value="Vashon">Vashon</option>
-        </select>
-		</span>
+		Community: 
+		<select class="input-small" ng-model="community">
+		  <option value="Seattle" selected>Seattle</option>
+		  <option value="Eastside">Eastside</option>
+		  <option value="Vashon">Vashon</option>
+		</select><br><br>
 
-		<span class="offset3">
-        Top 
-		<select ng-model="numResults" disabled="true" ng-init="200">
-          <option value="20">20</option>
-          <option value="100">100</option>
-          <option selected value="200">200</option>
-        </select> Results (not working yet)
-		</span>
+		Top 
+		<select class="input-mini" ng-model="numResults" disabled="true" ng-init="200">
+		  <option value="20">20</option>
+		  <option value="100">100</option>
+		  <option value="200" selected>200</option>
+		</select> Results <br><small>(not working yet)</small><br><br>
 
-		<span class="offset6">
 		<button ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
-		</span>
+
 		<br><span ng-model="errors"></span>
 
       </div>
+
       <div class="span10">
         <!--Body content-->
 
         <ol class="offers">
           <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
-			<h4>{{offer.Title}}</h4>
-            {{offer.Body.replace('Â', '')}}<br>
+			<h4>{{offer.Title}} &mdash; by {{offer['First Name']}}</h4>
+            {{offer.Body}}<br>
 			<br>
             Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>
 			<br><br>Category: <em>{{offer['Top-Level Category']}}</em>
