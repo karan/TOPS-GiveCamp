@@ -32,6 +32,7 @@ app.listen(process.env.PORT || port, function() {
     app.use('/lib', express.static('img'));
     app.use('/js', express.static('js'));
     app.use('/css', express.static('css'));
+    app.use('/assets', express.static('assets'));
 	function addStaticRoute(route, filename) {
 		if (!PRODUCTION) {
 			filename += ".jade";
