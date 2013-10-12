@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import csv
 import operator
 from datetime import datetime
@@ -94,6 +95,10 @@ if __name__ == '__main__':
     offers, requests = get_ads(offer_file)
     full_member_data = combine_member_data(member_data, comm_data)
     
-    fromAddress = 'dasher@tbanks.org' # Should be taken as input
+    fromAddress = 'dasher@tbanks.org' # May be taken as input    
+    curdir = os.getcwd()
+    rootdir = os.path.join(curdir, '..')
+    assetdir = os.path.join(rootdir, 'assets')
+    email_template = file(os.path.join(assetdir, 'emailtemplate.html')).read()
     sendEmails(subject, fromAddress, email_template, email_params, member_data)
     
