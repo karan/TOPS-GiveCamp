@@ -92,6 +92,8 @@ if __name__ == '__main__':
     member_data = get_member_dict(member_file)
     comm_data = get_comm_dict(comm_file)
     offers, requests = get_ads(offer_file)
-    
     full_member_data = combine_member_data(member_data, comm_data)
-    sendEmails(subject, email_template, email_params, member_data)
+    
+    fromAddress = 'dasher@tbanks.org' # Should be taken as input
+    sendEmails(subject, fromAddress, email_template, email_params, member_data)
+    
