@@ -8,18 +8,24 @@ from collections import OrderedDict
 
 
 def get_file_names():
-    member_file = raw_input("Enter name of csv file with member details (with .csv): ")
-    comm_file = raw_input("Enter name of csv file with member to community details (with .csv): ")
-    offer_file = raw_input("Enter name of csv file with offer details (with .csv): ")
+    ''' Gets the names of required csv files '''
+    member_file = raw_input("Enter name of csv file with member details \
+                            (with .csv): ")
+    comm_file = raw_input("Enter name of csv file with member to community \
+                          details (with .csv): ")
+    offer_file = raw_input("Enter name of csv file with offer details \
+                           (with .csv): ")
     return member_file, comm_file, offer_file
 
 def is_expired(date):
     ''' Return 1 if the passed datetime object is beyond now '''
     pat = '%m/%d/%y %H:%M'
     now = datetime.now()
-    return datetime.strptime(date, pat) < now # return 1 if expiry date is before now = expired
+    return datetime.strptime(date, pat) < now # return 1 if expiry date is before now
 
 def get_member_dict(member_file):
+    ''' Returns the dict containing all member information from members csv
+    file'''
     data = defaultdict(lambda: defaultdict(lambda: 'filler')) # {userid: {firstname, email}}
     with open(member_file, 'rb') as f:
         read = csv.reader(f)
@@ -34,6 +40,7 @@ def get_member_dict(member_file):
     return data
 
 def get_comm_dict(comm_file):
+    ''' Returns a dict containing community data for each user '''
     data = defaultdict(lambda: 'filler') # {userid: community}
     with open(comm_file, 'rb') as f:
         read = csv.reader(f)
@@ -44,6 +51,7 @@ def get_comm_dict(comm_file):
     return data
 
 def get_ads(offer_file):
+    ''' Builds up dicts for offers and requests in the ads csv file '''
     offers = defaultdict(lambda: defaultdict(lambda: 'filler')) # {ad_id: {details.}}
     requests = defaultdict(lambda: defaultdict(lambda: 'filler'))
     with open(offer_file, 'rb') as f:
@@ -83,15 +91,8 @@ def combine_member_data(member_data, comm_data):
 
 if __name__ == '__main__':
     member_file, comm_file, offer_file = get_file_names()
-    #member_data = get_member_dict(member_file)
-    #comm_data = get_comm_dict(comm_file)
+    member_data = get_member_dict(member_file)
+    comm_data = get_comm_dict(comm_file)
     offers, requests = get_ads(offer_file)
     
-    #full_member_data = combine_member_data(member_data, comm_data)
-    
-    for ad_id in sorted(offers.keys(), reverse=True)[:10]:
-        print '%d. %s' % (ad_id, offers[ad_id]["title"])
-    print len(offers)
-
-    # sort each one by ad_id
-    # get top 10 of each
+    full_member_data = combine_member_data(member_data, comm_data)
