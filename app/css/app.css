@@ -9,6 +9,12 @@ p.lead {
 	padding-left: 5px;
 }
 
+#sidebar {
+	border-right: 2px solid black;
+}
+
 span {
 	padding: 0px 15px;
 }
+
+
