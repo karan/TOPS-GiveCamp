@@ -28,6 +28,10 @@ app.use('/', express.static('app'));	// SHOULD I USE THIS
 app.listen(process.env.PORT || port, function() {
 	console.log("Listening on " + port);
 
+    app.use('/img', express.static('img'));
+    app.use('/lib', express.static('img'));
+    app.use('/js', express.static('js'));
+    app.use('/css', express.static('css'));
 	function addStaticRoute(route, filename) {
 		if (!PRODUCTION) {
 			filename += ".jade";
