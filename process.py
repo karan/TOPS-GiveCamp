@@ -6,6 +6,8 @@ from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
 
+from mandrillEmailSender import sendEmails
+
 
 def get_file_names():
     ''' Gets the names of required csv files '''
@@ -92,3 +94,4 @@ if __name__ == '__main__':
     offers, requests = get_ads(offer_file)
     
     full_member_data = combine_member_data(member_data, comm_data)
+    sendEmails(subject, email_template, email_params, member_data)
