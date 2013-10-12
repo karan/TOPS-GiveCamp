@@ -1,6 +1,6 @@
 var fs = require('fs');
 var http = require('http');
-var port = 9001;
+var port = 5000;
 var PRODUCTION = true;
 
 /* NODE STATIC STUFF
