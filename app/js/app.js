@@ -9,12 +9,12 @@
 			when('/edit', {
 				templateUrl: 'partials/email-edit.html',
 				controller: 'EmailListCtrl'
-			})/*.
-			when('/phones/:phoneId', {
-				templateUrl: 'partials/phone-detail.html',
-				controller: 'PhoneDetailCtrl'
+			}).
+			when('/upload', {
+				templateUrl: 'partials/csv-upload.html',
+				controller: 'UploadCtrl'
 			}).
 			otherwise({
-				redirectTo: '/phones'
-			})*/;
+				redirectTo: '/upload'
+			});
     }]);
