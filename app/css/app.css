@@ -1,5 +1,14 @@
 /* app css stylesheet */
 
 body {
-  padding-top: 20px;
+}
+
+p.lead {
+	font-size: 170%;
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+span {
+	padding: 0px 15px;
 }

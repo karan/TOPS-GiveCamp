@@ -1,16 +1,33 @@
-'use strict';
 
 /* Controllers */
 
-var phonecatApp = angular.module('phonecatApp', []);
+var emailApp = angular.module('emailApp', []);
 
-phonecatApp.controller('PhoneListCtrl', ['$scope', '$http'],
-	function PhoneListCtrl($scope) {
-			alert('here');
-			$http.get('../svc.json').success(function(data) {
-				alert(data);
-				$scope.phones = data;
+//emailApp.controller('EmailListCtrl',
+	function EmailListCtrl($scope, $http) {
+		$http.get('svc.json').success(function(data) {
+			/*alert(typeof(data))
+			for (entry in data) {
+				entry.Body = entry.Body.replace('Â', '');
+			}*/
+			$scope.offers = data;
+		}).error(function(data) {
+			$scope.errors.innerHTML = "Error: " + data;
+			$scope.offers = [];
 		});
+
+		var convertCSV = function() {
+			$http.get('svc.csv').success(function(data) {
+				csvObjects = CSV.parse(data);
+				jsonText = JSON.stringify(csvObjects, null, '\t');
+				alert( jsonText );
+			}).error(function(data) {
+				$scope.errors = "Error: " + data;
+				$scope.offers = [];
+			});
+		}
+	}
+//);
 /*
   $scope.phones = [
     {'name': 'Nexus S',
@@ -27,8 +44,8 @@ phonecatApp.controller('PhoneListCtrl', ['$scope', '$http'],
      'snippet': 'The Next, Next Generation tablet.',
 	 'community': 'Other'}
   ];
-*/
 });
+*/
 /*
     var phonecatControllers = angular.module('phonecatControllers', []);
  

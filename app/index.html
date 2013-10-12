@@ -1,39 +1,67 @@
 <!doctype html>
-<html lang="en" ng-app="phonecatApp">
+<html lang="en" ng-app="emailApp">
 <head>
   <meta charset="utf-8">
   <title>Edit Emails</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+
+  <script src="js/json2.js"> </script>
+  <script src="js/csv.js"> </script>
+  <!--<script src="js/csv-to-json.js"></script>-->
+
   <script src="js/controllers.js"></script>
 </head>
-<body ng-controller="PhoneListCtrl">
+<body ng-controller="EmailListCtrl">
+   <p class="lead">Email dashboard</p>
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <!--Sidebar content-->
 
+		<span>
         Community: 
 		<select ng-model="community">
           <option value="Seattle">Seattle</option>
           <option value="Eastside">Eastside</option>
           <option value="Vashon">Vashon</option>
         </select>
+		</span>
+
+		<span class="offset3">
+        Top 
+		<select ng-model="numResults" disabled="true" ng-init="200">
+          <option value="20">20</option>
+          <option value="100">100</option>
+          <option selected value="200">200</option>
+        </select> Results (not working yet)
+		</span>
+
+		<span class="offset6">
+		<button ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
+		</span>
+		<br><span ng-model="errors"></span>
 
       </div>
       <div class="span10">
         <!--Body content-->
-		<p class="lead">
 
-        <ul class="phones">
-          <li ng-repeat="phone in phones | filter:community">
-		{{ phone }} <br>
-            {{phone.name}}
-            <p>{{phone.snippet}}</p>
+        <ol class="offers">
+          <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
+			<h4>{{offer.Title}}</h4>
+            {{offer.Body.replace('Â', '')}}<br>
+			<br>
+            Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>
+			<br><br>Category: <em>{{offer['Top-Level Category']}}</em>
+			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
+			<br><em>Created: {{offer['Last Updated']}}</em>
+			<br><em>Expires: {{offer['Expiration Date']}}</em>
+			<br><br>
+			<small ng-show="showFull">Full offer:{{offer|json}}</small>
           </li>
-        </ul>
+        </ol>
 
       </div>
     </div>
