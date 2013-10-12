@@ -100,5 +100,5 @@ if __name__ == '__main__':
     rootdir = os.path.join(curdir, '..')
     assetdir = os.path.join(rootdir, 'assets')
     email_template = file(os.path.join(assetdir, 'emailtemplate.html')).read()
-    sendEmails(subject, fromAddress, email_template, email_params, member_data)
+    sendEmails(subject, fromAddress, email_template, member_data)
     
