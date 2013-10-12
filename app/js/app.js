@@ -15,6 +15,6 @@
 				controller: 'UploadCtrl'
 			}).
 			otherwise({
-				redirectTo: '/edit'
+				redirectTo: '/upload'
 			});
     }]);
