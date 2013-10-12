@@ -24,7 +24,7 @@ def sendEmails(subject, fromAddress, email_template, email_params, member_data):
 #        for param in email_params:
 #            context[param] = member[param]
 #        text = html = env.from_string(email_template).render(context)    
-        text = html = email_template.replace('{{name}}', member['first'])
+        text = html = email_template.replace('{{first_name}}', member['first'])
         part1 = MIMEText(text, 'plain')
         part2 = MIMEText(html, 'html')
         msg.attach(part1)
