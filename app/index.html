@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" ng-app="phonecatApp">
+<head>
+  <meta charset="utf-8">
+  <title>Edit Emails</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+  <script src="js/controllers.js"></script>
+</head>
+<body ng-controller="PhoneListCtrl">
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span2">
+        <!--Sidebar content-->
+
+        Community: 
+		<select ng-model="community">
+          <option value="Seattle">Seattle</option>
+          <option value="Eastside">Eastside</option>
+          <option value="Vashon">Vashon</option>
+        </select>
+
+      </div>
+      <div class="span10">
+        <!--Body content-->
+		<p class="lead">
+
+        <ul class="phones">
+          <li ng-repeat="phone in phones | filter:community">
+            {{phone.name}}
+            <p>{{phone.snippet}}</p>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
