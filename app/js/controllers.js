@@ -12,8 +12,8 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 			}*/
 			$scope.offers = data;
 		}).error(function(data) {
-			$scope.errors.innerHTML = "Error: " + data;
-			$scope.offers = [];
+			$scope.errors = data;
+			$scope.offers = {};
 		});
 
 		var convertCSV = function() {
@@ -22,7 +22,7 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 				jsonText = JSON.stringify(csvObjects, null, '\t');
 				alert( jsonText );
 			}).error(function(data) {
-				$scope.errors = "Error: " + data;
+				$scope.errors = data;
 				$scope.offers = [];
 			});
 		};
