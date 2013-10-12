@@ -100,5 +100,14 @@ if __name__ == '__main__':
     rootdir = os.path.join(curdir, '..')
     assetdir = os.path.join(rootdir, 'assets')
     email_template = file(os.path.join(assetdir, 'emailtemplate.html')).read()
-    sendEmails(subject, fromAddress, email_template, member_data)
+    msgText = msgHtml = ''
+    offer_ids = offers.keys().sort(reverse=True)
+    numOffers = 10 > len(offer_ids) ? 10 : len(offer_ids)
+    
+    for i in range(numOffers):
+        offerTitle = offers[offer_ids[i]]
+        offerUrl = offers[offer_ids[i]]['url']
+        msgText += offerTitle + '\n'
+        msgHtml += '<li> <a href="' + offerUrl + '">' + offerTitle + ' </a></li>'
+    sendEmails(subject, fromAddress, email_template, full_member_data)
     
