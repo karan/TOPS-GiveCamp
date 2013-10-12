@@ -1,15 +1,9 @@
 
 /* Controllers */
 
-<<<<<<< HEAD
 var emailControllers = angular.module('emailControllers', []);
 
 emailControllers.controller('EmailListCtrl', ['$scope', '$http', 
-=======
-var emailApp = angular.module('emailApp', []);
-
-//emailApp.controller('EmailListCtrl',
->>>>>>> c71bb4a... got json to show services offered along with some properties
 	function EmailListCtrl($scope, $http) {
 		$http.get('svc.json').success(function(data) {
 			/*alert(typeof(data))
@@ -31,7 +25,6 @@ var emailApp = angular.module('emailApp', []);
 				$scope.errors = "Error: " + data;
 				$scope.offers = [];
 			});
-<<<<<<< HEAD
 		};
 	}
 ]);
@@ -41,11 +34,7 @@ emailControllers.controller('UploadCtrl', ['$scope',
 		$scope.testVar = "hello world";
 	}
 ]);
-=======
-		}
-	}
-//);
->>>>>>> c71bb4a... got json to show services offered along with some properties
+
 /*
   $scope.phones = [
     {'name': 'Nexus S',
