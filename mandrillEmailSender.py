@@ -1,6 +1,5 @@
 import os
 import smtplib
-#import jinja2
 
 
 from email.mime.multipart import MIMEMultipart
