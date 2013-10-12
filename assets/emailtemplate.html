@@ -189,7 +189,11 @@ body, td { font-family: 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif; 
                                 <td class="w580" width="580">
                                     <p align="left" class="article-title"><singleline label="Title">New Offers</singleline></p>
                                     <div align="left" class="article-content" id="new-offers">
-                                        <multiline label="Description">{{list_of_new_offers}}</multiline>
+                                        <multiline label="Description">
+                                            <ul>
+                                            {{list_of_new_offers}}
+                                            </ul>
+                                        </multiline>
                                     </div>
                                 </td>
                             </tr>
@@ -203,7 +207,11 @@ body, td { font-family: 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif; 
                                 <td class="w580" width="580">
                                     <p align="left" class="article-title"><singleline label="Title">New Requests</singleline></p>
                                     <div align="left" class="article-content" id="new-requests">
-                                        <multiline label="Description">{{list_of_new_requests}}</multiline>
+                                        <multiline label="Description">
+                                            <ul>
+                                            {{list_of_new_requests}}
+                                            </ul>
+                                        </multiline>
                                     </div>
                                 </td>
                             </tr>
