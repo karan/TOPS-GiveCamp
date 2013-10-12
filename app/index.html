@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="emailApp">
+<html lang="en" ng-app="emailApp components">
 <head>
   <meta charset="utf-8">
   <title>Edit Emails</title>
@@ -8,11 +8,14 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<script src="https://raw.github.com/angular/angular-phonecat/b6a6df9218fa867aa14fa660f0e58c2bc3342da4/app/lib/angular/angular-route.min.js"></script>
 
+  <!-- CSV to JSON Converter Stuff
   <script src="js/json2.js"> </script>
   <script src="js/csv.js"> </script>
-  <!--<script src="js/csv-to-json.js"></script>-->
+  <script src="js/csv-to-json.js"></script>-->
 
+  <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
 </head>
 <body ng-controller="EmailListCtrl">
@@ -28,69 +31,7 @@
     </div>
 
   <div class="container-fluid">
-<tabs>
-
-<pane title="Upload CSV">
-<h2>Hello World</h2>
-</pane>
-
-
-<!-- ========================================================= -->
-
-<pane title="Edit">
-   <div class="row-fluid">
-      <div id="sidebar" class="span2">
-        <!--Sidebar content-->
-
-		Community: 
-		<select class="input-small" ng-model="community">
-		  <option value="" selected>All</option>
-		  <option value="Seattle">Seattle</option>
-		  <option value="Eastside">Eastside</option>
-		  <option value="Vashon">Vashon</option>
-		</select><br><br>
-
-		Top 
-		<select class="input-mini" ng-model="numResults" disabled="true" ng-init="200">
-		  <option value="20">20</option>
-		  <option value="100">100</option>
-		  <option value="200" selected>200</option>
-		</select> Results <br><small>(not working yet)</small><br><br>
-
-		<em>Sorted by date updated</em>
-		<br><br>
-
-		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
-
-		<br><span ng-model="errors"></span>
-
-      </div>
-
-      <div class="span10">
-        <!--Body content-->
-
-        <ol class="offers">
-          <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
-			<h4>{{offer.Title}} &mdash; by {{offer['First Name']}}</h4>
-            {{offer.Body}}<br>
-			<br>
-            Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>
-			<br><br>Category: <em>{{offer['Top-Level Category']}}</em>
-			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
-			<br><em>Created: {{offer['Last Updated']}}</em>
-			<br><em>Expires: {{offer['Expiration Date']}}</em>
-			<br><br>
-			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
-				<small>Full offer:{{offer|json}}</small>
-			</div>
-			<hr>
-          </li>
-        </ol>
-
-      </div>
-    </div>
-</pane>
-</tabs>
+	<div ng-view></div>
   </div>
 
 </body>
