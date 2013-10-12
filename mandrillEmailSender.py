@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-def sendEmails(subject, fromAddress, email_template, email_params, member_data):
+def sendEmails(subject, fromAddress, email_template, member_data):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From']    = fromAddress 
