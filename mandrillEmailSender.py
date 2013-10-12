@@ -1,9 +1,11 @@
 import os
 import smtplib
-import jinja2
+#import jinja2
+
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
 
 def sendEmails(subject, fromAddress, email_template, email_params, member_data):
     msg = MIMEMultipart('alternative')
@@ -19,9 +21,10 @@ def sendEmails(subject, fromAddress, email_template, email_params, member_data):
     
     for member in member_info:
         context = {}
-        for param in email_params:
-            context[param] = member[param]
-        text = html = env.from_string(email_template).render(context)    
+#        for param in email_params:
+#            context[param] = member[param]
+#        text = html = env.from_string(email_template).render(context)    
+        text = html = email_template.replace('{{name}}', member['first'])
         part1 = MIMEText(text, 'plain')
         part2 = MIMEText(html, 'html')
         msg.attach(part1)
