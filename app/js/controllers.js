@@ -1,9 +1,9 @@
 
 /* Controllers */
 
-var emailApp = angular.module('emailApp', []);
+var emailControllers = angular.module('emailControllers', []);
 
-//emailApp.controller('EmailListCtrl',
+emailControllers.controller('EmailListCtrl', ['$scope', '$http', 
 	function EmailListCtrl($scope, $http) {
 		$http.get('svc.json').success(function(data) {
 			/*alert(typeof(data))
@@ -26,7 +26,7 @@ var emailApp = angular.module('emailApp', []);
 				$scope.offers = [];
 			});
 		}
-	}
+	}]);
 //);
 /*
   $scope.phones = [
