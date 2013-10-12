@@ -9,12 +9,9 @@ from collections import OrderedDict
 
 def get_file_names():
     ''' Gets the names of required csv files '''
-    member_file = raw_input("Enter name of csv file with member details \
-                            (with .csv): ")
-    comm_file = raw_input("Enter name of csv file with member to community \
-                          details (with .csv): ")
-    offer_file = raw_input("Enter name of csv file with offer details \
-                           (with .csv): ")
+    member_file = raw_input("Enter name of csv file with member details (with .csv): ")
+    comm_file = raw_input("Enter name of csv file with member to community details (with .csv): ")
+    offer_file = raw_input("Enter name of csv file with offer details (with .csv): ")
     return member_file, comm_file, offer_file
 
 def is_expired(date):
@@ -87,7 +84,6 @@ def combine_member_data(member_data, comm_data):
         if user_id in comm_keys:
             member_data[user_id]["community"] = comm_data[user_id]
     return member_data
-
 
 if __name__ == '__main__':
     member_file, comm_file, offer_file = get_file_names()
