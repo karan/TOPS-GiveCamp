@@ -62,24 +62,29 @@ def get_ads(offer_file):
         read = csv.reader(f)
         next(read, None) # skip the header
         for row in read:
-            ad_id = int(row[1])
+            row = unicode(row)
+            try:
+                ad_id = int(row[1])
+            except ValueError:
+                print row[1]
+                print row
             expiry = row[13]
             if not is_expired(expiry):
                 ad_type = row[2]
                 if ad_type == 'Offer':
-                    offers[ad_id]["first"] = row[6]
+                    offers[ad_id]["first"] = unicode(row[6])
                     offers[ad_id]["category"] = row[11]
                     offers[ad_id]["expiry"] = expiry
                     offers[ad_id]["url"] = row[14]
-                    offers[ad_id]["title"] = row[15]
-                    offers[ad_id]["body"] = row[16]
+                    offers[ad_id]["title"] = unicode(row[15])
+                    offers[ad_id]["body"] = unicode(row[16])
                 elif ad_type == 'Request':
-                    requests[ad_id]["first"] = row[6]
+                    requests[ad_id]["first"] = unicode(row[6])
                     requests[ad_id]["category"] = row[11]
                     requests[ad_id]["expiry"] = expiry
                     requests[ad_id]["url"] = row[14]
-                    requests[ad_id]["title"] = row[15]
-                    requests[ad_id]["body"] = row[16]
+                    requests[ad_id]["title"] = unicode(row[15])
+                    requests[ad_id]["body"] = unicode(row[16])
     return offers, requests
     
 def combine_member_data(member_data, comm_data):

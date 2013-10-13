@@ -25,9 +25,9 @@ def sendEmails(subject, fromAddress, emailHtml, emailText, member_data):
         msg.attach(part1)
         msg.attach(part2)
         msg['To'] = member['email']
-        print msg['From'], msg['To'], msg.as_string()
-        print ''
-        #s.sendmail(msg['From'], msg['To'], msg.as_string())
+        #print msg['From'], msg['To'], msg.as_string()
+        #print ''
+        s.sendmail(msg['From'], msg['To'], msg.as_string())
 
     s.quit()
 
