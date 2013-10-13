@@ -105,16 +105,19 @@ if __name__ == '__main__':
     reqText = reqHtml = ''
     offer_ids = offers.keys().sort(reverse=True)
     request_ids = requests.keys().sort(reverse=True)
-    numOffers = 10 > len(offer_ids) ? 10 : len(offer_ids)
+    numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
+    numRequests = 10 if len(request_ids) >= 10 else len(request_ids)
     
     for i in range(numOffers):
-        offerTitle = offers[offer_ids[i]]
-        offerUrl = offers[offer_ids[i]]['url']
+        offer = offer_ids[i]
+        offerTitle = offers[offer]['title']
+        offerUrl = offers[offer]['url']
         offerText += offerTitle + '\n'
         offerHtml += '<li> <a href="' + offerUrl + '">' + offerTitle + ' </a></li>'
-        
-        reqTitle = requests[request_ids[i]]
-        reqUrl = requests[request_ids[i]]['url']
+    for i in range(numRequests):
+        request = request_ids[i]
+        reqTitle = requests[request]['title']
+        reqUrl = requests[request]['url']
         reqText += reqTitle + '\n'
         reqHtml += '<li> <a href="' + reqUrl + '">' + reqTitle + ' </a></li>'
     
