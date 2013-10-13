@@ -2,10 +2,8 @@
 
 import os
 import csv
-import operator
 from datetime import datetime
 from collections import defaultdict
-from collections import OrderedDict
 
 from mandrillEmailSender import sendEmails
 
