@@ -66,8 +66,7 @@ def get_ads(offer_file):
             try:
                 ad_id = int(row[1])
             except ValueError:
-                print row[1]
-                print row
+                continue
             expiry = row[13]
             if not is_expired(expiry):
                 ad_type = row[2]
@@ -135,5 +134,5 @@ if __name__ == '__main__':
     emailText.replace('{{list_of_new_requests}}', reqText)
     emailHtml.replace('{{list_of_new_offers}}', offerHtml)
     emailText.replace('{{list_of_new_offers}}', offerText)
-    sendEmails(subject, fromAddress, emailHtml, emailText, full_member_data)
+    #sendEmails(subject, fromAddress, emailHtml, emailText, full_member_data)
     
