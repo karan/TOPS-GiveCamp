@@ -5,7 +5,7 @@
 
    <div class="row-fluid" ng-show="{{accessCode==2468}}">
 
-      <div id="sidebar" class="span2">
+      <div id="sidebar" class="span2" ng-show="$location.path() == '/edit'">
         <!--Sidebar content-->
 
 		Community: 
@@ -34,13 +34,27 @@
 
       <div class="span10">
         <!--Body content-->
-		<h1>Upload your files</h1>
-		<input type="file" id="file1">Upload 1st CSV</input> 
-		<br>
-		<input type="file" id="file2">Upload 2nd CSV</input>
-		<br>
-		<input type="file" id="file3">Upload 3rd CSV</input>
-		<br>
+		<form class="" method="POST" enctype="multipart/form-data" action="/upload">
+			<fieldset>
+			<legend>Upload your files</legend>
+				<label class="control-label" for="communityFile">Upload Community/Neighborhood CSV</label>
+				<div class="controls">
+					<input type="file" name="communityFile" id="communityFile">
+				</div> <hr>
+
+				<label class="control-label" for="memberFile">Upload Members CSV</label>
+				<div class="controls">
+					<input type="file" name="memberFile" id="memberFile">
+				</div> <hr>
+
+				<label class="control-label" for="servicesFile">Upload Services CSV</labeL>
+				<div class="controls">
+					<input type="file" name="servicesFile" id="servicesFile">
+				</div> <br><br>
+
+				<button type="submit" class="btn btn-success offset1">Submit</button>
+			</fieldset>
+		</form>
       </div>
     </div>
 

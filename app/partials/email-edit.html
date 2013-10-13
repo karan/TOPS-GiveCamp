@@ -28,7 +28,8 @@
 
 		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
 
-		<br><span ng-model="errors"></span>
+		<br><br>
+		<div style="margin-right: 19px; padding: 7px" ng-model="errors" ng-show="errors" class="alert alert-error" ng-init=""><strong>{{errors}}</strong></div>
 
       </div>
 
