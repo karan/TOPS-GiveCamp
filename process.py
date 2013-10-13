@@ -17,7 +17,7 @@ def get_file_names():
 
 def is_expired(date):
     ''' Return 1 if the passed datetime object is beyond now '''
-    pat = '%m/%d/%y %H:%M'
+    pat = '%m/%d/%Y %H:%M'
     now = datetime.now()
     return datetime.strptime(date, pat) < now # return 1 if expiry date is before now
 
