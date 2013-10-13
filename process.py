@@ -95,13 +95,14 @@ if __name__ == '__main__':
     
     fromAddress = 'dasher@tbanks.org' # May be taken as input    
     curdir = os.getcwd()
-    rootdir = os.path.join(curdir, '..')
-    assetdir = os.path.join(rootdir, 'assets')
+    #rootdir = os.path.join(curdir, '..')
+    assetdir = os.path.join(curdir, 'assets')
     emailHtml = file(os.path.join(assetdir, 'emailtemplate.html')).read()
     emailText = file(os.path.join(assetdir, 'emailtemplate.txt')).read()
     offerText = offerHtml = ''
     reqText = reqHtml = ''
-    offer_ids = offers.keys().sort(reverse=True)
+    offer_ids = offers.keys()
+    offer_ids.sort(reverse=True)
     request_ids = requests.keys().sort(reverse=True)
     numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
     numRequests = 10 if len(request_ids) >= 10 else len(request_ids)
