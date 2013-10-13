@@ -1,6 +1,4 @@
-*.csv
-<<<<<<< HEAD
-*.json
-=======
 *~
->>>>>>> 220a5d8... basic changes
+*.csv
+svc.json
+app/svc.json

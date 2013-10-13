@@ -1,6 +1,7 @@
 var fs = require('fs');
 var http = require('http');
-var port = 9001;
+
+var port = 5000;
 var PRODUCTION = true;
 
 /* NODE STATIC STUFF
@@ -16,15 +17,22 @@ console.log("Listening on " + port);
 */
 
 //var jade = require('jade');
+
+
 var express = require('express');
 var app = express.createServer();
 app.use(express.logger());
 //app.use(express.static(__dirname));		// DO NOT USE IN PRODUCTION!!!!
 app.use('/', express.static('app'));	// SHOULD I USE THIS
 //app.set('port', process.env.PORT || 8080);
-app.listen(port, function() {
+app.listen(process.env.PORT || port, function() {
 	console.log("Listening on " + port);
 
+    app.use('/img', express.static('img'));
+    app.use('/lib', express.static('img'));
+    app.use('/js', express.static('js'));
+    app.use('/css', express.static('css'));
+    app.use('/assets', express.static('assets'));
 	function addStaticRoute(route, filename) {
 		if (!PRODUCTION) {
 			filename += ".jade";

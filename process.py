@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import csv
 import operator
 from datetime import datetime
@@ -94,6 +95,32 @@ if __name__ == '__main__':
     offers, requests = get_ads(offer_file)
     full_member_data = combine_member_data(member_data, comm_data)
     
-    fromAddress = 'dasher@tbanks.org' # Should be taken as input
-    sendEmails(subject, fromAddress, email_template, email_params, member_data)
+    fromAddress = 'dasher@tbanks.org' # May be taken as input    
+    curdir = os.getcwd()
+    rootdir = os.path.join(curdir, '..')
+    assetdir = os.path.join(rootdir, 'assets')
+    emailHtml = file(os.path.join(assetdir, 'emailtemplate.html')).read()
+    emailText = file(os.path.join(assetdir, 'emailtemplate.txt')).read()
+    offerText = offerHtml = ''
+    reqText = reqHtml = ''
+    offer_ids = offers.keys().sort(reverse=True)
+    request_ids = requests.keys().sort(reverse=True)
+    numOffers = 10 > len(offer_ids) ? 10 : len(offer_ids)
+    
+    for i in range(numOffers):
+        offerTitle = offers[offer_ids[i]]
+        offerUrl = offers[offer_ids[i]]['url']
+        offerText += offerTitle + '\n'
+        offerHtml += '<li> <a href="' + offerUrl + '">' + offerTitle + ' </a></li>'
+        
+        reqTitle = requests[request_ids[i]]
+        reqUrl = requests[request_ids[i]]['url']
+        reqText += reqTitle + '\n'
+        reqHtml += '<li> <a href="' + reqUrl + '">' + reqTitle + ' </a></li>'
+    
+    emailHtml.replace('{{list_of_new_requests}}', reqHtml)
+    emailText.replace('{{list_of_new_requests}}', reqText)
+    emailHtml.replace('{{list_of_new_offers}}', offerHtml)
+    emailText.replace('{{list_of_new_offers}}', offerText)
+    sendEmails(subject, fromAddress, emailHtml, emailText, full_member_data)
     
