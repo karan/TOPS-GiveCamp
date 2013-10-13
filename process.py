@@ -97,7 +97,8 @@ if __name__ == '__main__':
     offers, requests = get_ads(offer_file)
     full_member_data = combine_member_data(member_data, comm_data)
     
-    fromAddress = 'dasher@tbanks.org' # May be taken as input    
+    fromAddress = 'dasher@tbanks.org' # May be taken as input 
+    subject = 'Offers of the Day'   
     curdir = os.getcwd()
     #rootdir = os.path.join(curdir, '..')
     assetdir = os.path.join(curdir, 'assets')
@@ -105,12 +106,11 @@ if __name__ == '__main__':
     emailText = file(os.path.join(assetdir, 'emailtemplate.txt')).read()
     offerText = offerHtml = ''
     reqText = reqHtml = ''
-    offer_ids = sorted(offers.keys(), reverse=True)
-    request_ids = sorted(requests.keys(), reverse=True)
-    try:
-        numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
-    except NoneType:
-        print offers
+    offer_ids = offers.keys()
+    offer_ids.sort(reverse=True)
+    request_ids = requests.keys()
+    request_ids.sort(reverse=True)
+    numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
     numRequests = 10 if len(request_ids) >= 10 else len(request_ids)
     
     for i in range(numOffers):

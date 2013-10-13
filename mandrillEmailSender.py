@@ -11,7 +11,6 @@ def sendEmails(subject, fromAddress, emailHtml, emailText, member_data):
     msg['Subject'] = subject
     msg['From']    = fromAddress 
     member_info = member_data.values()
-    env = jinja2.Environment()
     
     username = 'givecamp2013@tbanks.org'
     password = '54I7zU4cVDJqAVAAoudnjg'
@@ -19,10 +18,6 @@ def sendEmails(subject, fromAddress, emailHtml, emailText, member_data):
     s.login(username, password)
     
     for member in member_info:
-#        context = {}
-#        for param in email_params:
-#            context[param] = member[param]
-#        text = html = env.from_string(email_template).render(context)    
         text = emailText.replace('{{first_name}}', member['first'])
         html = emailHtml.replace('{{first_name}}', member['first'])
         part1 = MIMEText(text, 'plain')
@@ -30,7 +25,9 @@ def sendEmails(subject, fromAddress, emailHtml, emailText, member_data):
         msg.attach(part1)
         msg.attach(part2)
         msg['To'] = member['email']
-        s.sendmail(msg['From'], msg['To'], msg.as_string())
+        print msg['From'], msg['To'], msg.as_string()
+        print ''
+        #s.sendmail(msg['From'], msg['To'], msg.as_string())
 
     s.quit()
 
