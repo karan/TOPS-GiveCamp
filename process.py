@@ -19,7 +19,11 @@ def is_expired(date):
     ''' Return 1 if the passed datetime object is beyond now '''
     pat = '%m/%d/%Y %H:%M'
     now = datetime.now()
-    return datetime.strptime(date, pat) < now # return 1 if expiry date is before now
+    try:
+        expiry = datetime.strptime(date, pat) # 1/6/2014 22:00
+    except ValueError:
+        expiry = datetime.strptime(date, '%m/%d/%y %H:%M') # 1/6/2014 22:00
+    return expiry < now # return 1 if expiry date is before now
 
 def get_member_dict(member_file):
     ''' Returns the dict containing all member information from members csv
@@ -101,10 +105,12 @@ if __name__ == '__main__':
     emailText = file(os.path.join(assetdir, 'emailtemplate.txt')).read()
     offerText = offerHtml = ''
     reqText = reqHtml = ''
-    offer_ids = offers.keys()
-    offer_ids.sort(reverse=True)
-    request_ids = requests.keys().sort(reverse=True)
-    numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
+    offer_ids = sorted(offers.keys(), reverse=True)
+    request_ids = sorted(requests.keys(), reverse=True)
+    try:
+        numOffers = 10 if len(offer_ids) >= 10 else len(offer_ids)
+    except NoneType:
+        print offers
     numRequests = 10 if len(request_ids) >= 10 else len(request_ids)
     
     for i in range(numOffers):
