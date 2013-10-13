@@ -14,7 +14,11 @@
 				templateUrl: 'partials/csv-upload.html',
 				controller: 'UploadCtrl'
 			}).
+			when('/login', {
+				templateUrl: 'partials/login.html',
+				controller: 'loginCtrl'
+			}).
 			otherwise({
-				redirectTo: '/upload'
+				redirectTo: '/login'
 			});
     }]);

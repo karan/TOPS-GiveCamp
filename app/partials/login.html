@@ -1,0 +1,22 @@
+   <div class="row-fluid">
+
+      <div class="span12">
+        <!--Body content-->
+	<h1>Enter your access code</h1>
+	<p>
+	  <form name="accessForm">
+	    <input type="number"
+		   ng-model="$parent.accessCode"
+		   ng-minlength="4"
+		   ng-maxlength="4"
+		   required>
+            </input>
+	    <span class="error" ng-show="accessForm.input.$error">Access Code Error!</span>
+	    <p>
+	      <tt>You entered {{$parent.accessCode}} as your access code.</tt><br />
+	    </p>
+	  </form>
+	</p>
+      </div>
+    </div>
+

@@ -29,8 +29,14 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 	}
 ]);
 
-emailControllers.controller('UploadCtrl', ['$scope', 
+emailControllers.controller('UploadCtrl', ['$scope',
 	function UploadCtrl($scope) {
+		$scope.testVar = "hello world";
+	}
+]);
+
+emailControllers.controller('loginCtrl', ['$scope',
+	function loginCtrl($scope) {
 		$scope.testVar = "hello world";
 	}
 ]);
