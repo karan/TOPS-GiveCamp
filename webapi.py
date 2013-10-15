@@ -29,8 +29,8 @@ app.secret_key = flask_secret_key
 
 @app.route("/")
 def index():
-	return render_template('index.html')
-	#redirect( url_for('static', filename='index.html'))
+	#return render_template('index.html')
+	return redirect( url_for('static', filename='index.html'))
 	"""
 	filename = url_for('app.static', filename='index.html')
 	print "FILENAME:", filename

@@ -4,13 +4,20 @@
 import csv
 import json
 
-inputcsv = [ 'svc' ]
+uploadDir = 'app/uploads/'
+csvfilenames = ["communityFile", "memberFile", "servicesFile" ]
+inputcsv = [ uploadDir + filename for filename in csvfilenames ]
 
 def main():
 	for csvfile in inputcsv:
 		infile = csvfile + '.csv'
 		outfile = csvfile + '.json'
-		csvToJson(infile, outfile)
+		try:
+			csvToJson(infile, outfile)
+		except Exception as e:
+			print "(csvtojson.py) Error with file conversion (file might not exist): " + infile
+			continue
+		print "(csvtojson.py) done writing", outfile
 		"""
 		f = open(csvfile + '.csv' , 'r')
 

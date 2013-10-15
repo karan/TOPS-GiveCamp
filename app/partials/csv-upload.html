@@ -34,26 +34,32 @@
 
       <div class="span10">
         <!--Body content-->
-		<form class="" method="POST" enctype="multipart/form-data" action="/upload">
+		<form class="" ng-submit="showLoading()" method="POST" enctype="multipart/form-data" action="/upload">
+		<!--
+		<form ng-submit="submit()" enctype="multipart/form-data" method="post"  id="csvForm">
+		-->
 			<fieldset>
 			<legend>Upload your files</legend>
 				<label class="control-label" for="communityFile">Upload Community/Neighborhood CSV</label>
 				<div class="controls">
-					<input type="file" name="communityFile" id="communityFile">
+					<input type="file" ng-model="formData.communityFile" ng-change="changeForm(data)" name="communityFile" id="communityFile">
 				</div> <hr>
 
 				<label class="control-label" for="memberFile">Upload Members CSV</label>
 				<div class="controls">
-					<input type="file" name="memberFile" id="memberFile">
+					<input type="file" ng-model="formData.memberFile" ng-change="changeForm(data)" name="memberFile" id="memberFile">
 				</div> <hr>
 
 				<label class="control-label" for="servicesFile">Upload Services CSV</labeL>
 				<div class="controls">
-					<input type="file" name="servicesFile" id="servicesFile">
+					<input type="file" ng-model="formData.servicesFile" name="servicesFile" id="servicesFile">
 				</div> <br><br>
 
 				<button type="submit" class="btn btn-success offset1">Submit</button>
 			</fieldset>
+
+			<br>
+			<div class="alert {{alertType}}" ng-show="didSubmit">{{submitAlert}}</div>
 		</form>
       </div>
     </div>

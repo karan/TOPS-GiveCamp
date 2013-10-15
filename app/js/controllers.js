@@ -3,9 +3,12 @@
 
 var emailControllers = angular.module('emailControllers', []);
 
-emailControllers.controller('EmailListCtrl', ['$scope', '$http', 
+emailControllers.controller('EmailListCtrl', ['$scope', '$http',
+	
 	function EmailListCtrl($scope, $http) {
-		$http.get('svc.json').success(function(data) {
+		var servicesFile = "uploads/servicesFile.json";
+
+		$http.get(servicesFile).success(function(data) {
 			/*alert(typeof(data))
 			for (entry in data) {
 				entry.Body = entry.Body.replace('Â', '');
@@ -17,7 +20,7 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 		});
 
 		var convertCSV = function() {
-			$http.get('svc.csv').success(function(data) {
+			$http.get(servicesFile).success(function(data) {
 				csvObjects = CSV.parse(data);
 				jsonText = JSON.stringify(csvObjects, null, '\t');
 				alert( jsonText );
@@ -29,9 +32,53 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 	}
 ]);
 
-emailControllers.controller('UploadCtrl', ['$scope',
-	function UploadCtrl($scope) {
-		$scope.testVar = "hello world";
+emailControllers.controller('UploadCtrl', ['$scope', '$http',
+	function UploadCtrl($scope, $http) {
+		$scope.formData = {};
+		$scope.didSubmit = false;
+		$scope.url = "/upload";
+
+		$scope.change = function() {
+			//names = [ 'communityFile', 'memberFile', 'servicesFile' ];
+			names = [ 'servicesFile' ];
+			for (var i = 0; i < names.length; i++) {
+				var name = names[i];
+				var el  = document.getElementById(name);
+				alert(JSON.stringify(el));
+				$scope.formData[name] = JSON.parse(el);
+			}
+		};
+
+		$scope.showLoading = function() {
+			$scope.didSubmit = true;
+			$scope.alertType = "alert-success";
+			$scope.submitAlert = "Loading...";
+		};
+
+		$scope.submit = function() {
+			$scope.didSubmit = true;
+			$scope.alertType = "alert-success";
+			//$scope.change();
+			var el  = document.getElementById('servicesFile');
+			$scope.formData = el;
+
+			//$scope.formData.communityFile = 'hello';
+			$scope.submitAlert = JSON.stringify($scope.formData);
+
+			$http.post({
+				url: $scope.url,
+				data: $scope.formData,
+				headers: {'Content-Type': 'multipart/form-data'}
+			}).success(function(data) {
+				$scope.didSubmit = true;
+				$scope.alertType = "alert-success";
+				$scope.submitAlert = data;
+			}).error(function(data) {
+				$scope.didSubmit = true;
+				$scope.alertType = "alert-error";
+				$scope.submitAlert = data;
+			});
+		};
 	}
 ]);
 

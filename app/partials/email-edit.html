@@ -28,24 +28,28 @@
 
 		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
 
-		<br><br>
-		<div style="margin-right: 19px; padding: 7px" ng-model="errors" ng-show="errors" class="alert alert-error" ng-init=""><strong>{{errors}}</strong></div>
-
       </div>
 
       <div class="span10">
         <!--Body content-->
 
+		<div style="padding: 7px" ng-model="errors" ng-show="errors" class="span5 alert alert-error" ng-init="">
+			<strong>{{errors}}</strong>
+			<br>
+			Please make sure you uploaded your CSV files correctly.
+		</div>
+
         <ol class="offers">
           <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
-			<h4>{{offer.Title}} &mdash; by {{offer['First Name']}}</h4>
-            {{offer.Body}}<br>
-			<br>
-            Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>
-			<br><br>Category: <em>{{offer['Top-Level Category']}}</em>
+			<h4>
+				<a href="{{offer.URL}}" target="_blank">{{offer.Title}}</a> &mdash; by {{offer['First Name']}}
+			</h4>
+
+            <textarea name="textareaBody" style="width: 70%" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g') }}</textarea><br>
+            <!--Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>-->
+			Category: <em>{{offer['Top-Level Category']}}</em>
 			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
-			<br><em>Created: {{offer['Last Updated']}}</em>
-			<br><em>Expires: {{offer['Expiration Date']}}</em>
+			<br><em>Created: {{offer['Last Updated']}}</em>, <em>Expires: {{offer['Expiration Date']}}</em>
 			<br><br>
 			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
 				<small>Full offer:{{offer|json}}</small>
@@ -53,6 +57,17 @@
 			<hr>
           </li>
         </ol>
+
+		<div ng-show="false">
+			<button class="btn btn-success">Send mail!</button>
+			<br><br>
+			<small>Doesn't work yet</small>
+		</div>
+
+		<div style="padding: 7px" ng-model="sendErrors" ng-show="sendErrors" class="span5 alert alert-error" ng-init="">
+			<strong>{{sendErrors}}</strong>
+		</div>
+
 
       </div>
     </div>
