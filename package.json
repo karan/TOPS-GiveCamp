@@ -1,12 +1,13 @@
 {
-  "name": "node-example",
-  "version": "0.0.1",
+  "name": "givecamp-backend",
+  "version": "0.5.0",
   "dependencies": {
     "express": "2.5.x",
-    "node-static": "0.7.0"
+    "node-static": "0.7.0",
+    "q": "~0.9.7"
   },
   "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
+    "node": "0.10.x",
+    "npm": "1.3.x"
   }
 }
