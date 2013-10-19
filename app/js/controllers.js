@@ -1,12 +1,12 @@
-
 /* Controllers */
 
 var emailControllers = angular.module('emailControllers', []);
 
 emailControllers.controller('EmailListCtrl', ['$scope', '$http',
-	
 	function EmailListCtrl($scope, $http) {
+		"use strict";
 		var servicesFile = "uploads/servicesFile.json";
+		$scope.numResults = 500;  // if this is omitted, the select input shows a blank by default
 
 		$http.get(servicesFile).success(function(data) {
 			/*alert(typeof(data))
@@ -34,6 +34,7 @@ emailControllers.controller('EmailListCtrl', ['$scope', '$http',
 
 emailControllers.controller('UploadCtrl', ['$scope', '$http',
 	function UploadCtrl($scope, $http) {
+		"use strict";
 		$scope.formData = {};
 		$scope.didSubmit = false;
 		$scope.url = "/upload";
@@ -87,37 +88,3 @@ emailControllers.controller('loginCtrl', ['$scope',
 		$scope.testVar = "hello world";
 	}
 ]);
-
-/*
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.',
-	 'community': 'Seattle'
-	},
-    {'name': '(Fake Seattle) Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.',
-	 'community': 'Vashon'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.',
-	 'community': 'Eastside'},
-    {'name': 'XOOM™',
-     'snippet': 'The Next, Next Generation tablet.',
-	 'community': 'Other'}
-  ];
-});
-*/
-/*
-    var phonecatControllers = angular.module('phonecatControllers', []);
- 
-    phonecatControllers.controller('PhoneListCtrl', ['$scope', '$http',
-		function PhoneListCtrl($scope, $http) {
-			$http.get('../svc.json').success(function(data) {
-			$scope.phones = data;
-		});
-    }]);
-     
-    phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams',
-		function($scope, $routeParams) {
-		$scope.phoneId = $routeParams.phoneId;
-    }]);
-*/

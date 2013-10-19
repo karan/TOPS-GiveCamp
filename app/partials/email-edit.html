@@ -14,19 +14,23 @@
 		  <option value="Seattle">Seattle</option>
 		  <option value="Eastside">Eastside</option>
 		  <option value="Vashon">Vashon</option>
-		</select><br><br>
+		</select><br>
 
-		Top 
-		<select class="input-mini" ng-model="numResults" disabled="true" ng-init="200">
-		  <option value="20">20</option>
-		  <option value="100">100</option>
-		  <option value="200" selected>200</option>
-		</select> Results <br><small>(not working yet)</small><br><br>
+		<input type="text" class="input-small" placeholder="Search text" ng-model="search">
+		<br>
+
+		<select class="input-small" name="topxresults" ng-model="numResults">
+		  <option value="20">Top 20</option>
+		  <option value="100">Top 100</option>
+		  <option value="200">Top 200</option>
+		  <option value="500" selected>Top 500</option>
+		</select> Results <br>
+		<!--<small>(not working yet)</small><br><br>-->
 
 		<em>Sorted by date updated</em>
 		<br><br>
 
-		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Full</button>
+		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Details</button>
 
       </div>
 
@@ -40,12 +44,12 @@
 		</div>
 
         <ol class="offers">
-          <li ng-repeat="offer in offers | filter:community | orderBy:offer['Last Updated'] ">
+          <li ng-repeat="offer in offers | filter:community | filter:search | orderBy:offer['Last Updated'] | limitTo:numResults">
 			<h4>
-				<a href="{{offer.URL}}" target="_blank">{{offer.Title}}</a> &mdash; by {{offer['First Name']}}
+				<a href="{{offer.URL}}" target="_blank">{{offer.Title}}</a> &mdash; {{offer['First Name']}}
 			</h4>
 
-            <textarea name="textareaBody" style="width: 70%" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g') }}</textarea><br>
+            <textarea name="textareaBody" style="width: 70%" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g').trim() }}</textarea><br>
             <!--Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>-->
 			Category: <em>{{offer['Top-Level Category']}}</em>
 			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
@@ -71,4 +75,3 @@
 
       </div>
     </div>
-
