@@ -1,5 +1,6 @@
 var fs = require('fs');
 var http = require('http');
+//var Q = require('q');	// promise library - https://github.com/kriskowal/q
 var port = process.env.PORT || 9001;
 var PRODUCTION = false;
 
@@ -25,6 +26,8 @@ function addUploadRoute() {
 		var NUM_FILES = 3;
 		var UPLOAD_DIR = "app/uploads";
 		var csvfilenames = ["communityFile", "memberFile", "servicesFile" ];
+		var actualfilenames = ["", "", ""];
+		var writeFileFnArray = new Array(3);
 		//console.log("REQUEST: " + req);
 
 		for (var i = 0; i < NUM_FILES; i++) {
@@ -41,23 +44,33 @@ function addUploadRoute() {
 			} else {
 				console.log("(node: in /upload route) Processing: " + csvfilenames[i]);
 				console.log("File: name = " + fileObject.name + "| path = " + fileObject.path);
+				// save filenames on server for processing - should be community/neighborhood, members, services
+				actualfilenames[i] = fileObject.path;
+				/*
 				fs.readFile(fileObject.path, function (err, data) {
 					if (err) console.log(err);
 					var newPath = __dirname + "/" + UPLOAD_DIR + "/" + filename + ".csv";
 					console.log("writing file: " + newPath);
-					fs.writeFile(newPath, data, function (err) {
+
+					// add async writefile function to the array of promises
+					writeFileFnArray[i] = fs.writeFile(newPath, data, function (err) {
 						if (err) console.log("Error writing file: " + err);
-						else console.log("wrote file successfully");
+						else console.log("wrote file " + newPath + " successfully");
 						//res.redirect("back");
 					});
 				});
+				*/
 			}
-		} 	// end of for-loop processing 3 files
+		}	// end of for-loop processing 3 files
 
+		// once all files are done being written, process them
+		//Q.all(writeFileFnArray).done(function() {
 		console.log("Done with files. Starting processing...");
-		backendWrapper.processData();
+		console.log("[TEST] actual filenames: " + JSON.stringify(actualfilenames));
+		backendWrapper.processData(actualfilenames);
 		console.log("finished postprocessing (process.py) successfully");
 		res.redirect('/#/edit');
+		//});
 		//res.redirect("back");
 	}); // app.post()
 }
