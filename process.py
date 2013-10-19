@@ -7,6 +7,11 @@ from collections import defaultdict
 
 from mandrillEmailSender import sendEmails
 
+uploadDir = 'app/uploads/'
+csvfilenames = ["communityFile", "memberFile", "servicesFile" ]
+inputcsv = [ uploadDir + filename for filename in csvfilenames ]
+#inputcsv = [ filename + ".csv" for filename in inputcsv ]
+#return inputcsv[0], inputcsv[1], inputcsv[2]
 
 def get_file_names():
     ''' Gets the names of required csv files '''
@@ -95,11 +100,21 @@ def combine_member_data(member_data, comm_data):
     return member_data
 
 if __name__ == '__main__':
-    member_file, comm_file, offer_file = get_file_names()
+    import json, sys
+    #member_file, comm_file, offer_file = get_file_names()
+    member_file, comm_file, offer_file = sys.argv[1:4]
     member_data = get_member_dict(member_file)
     comm_data = get_comm_dict(comm_file)
     offers, requests = get_ads(offer_file)
     full_member_data = combine_member_data(member_data, comm_data)
+
+    TEST_FRONTEND = True
+    if TEST_FRONTEND:
+        f = open(inputcsv[2] + ".json", 'w')
+        f.write( json.dumps( full_member_data ) );
+        f.close()
+        print "(process.py) wrote file", inputcsv[2] + ".json"
+        sys.exit()
     
     fromAddress = 'dasher@tbanks.org' # May be taken as input 
     subject = 'Offers of the Day'   
