@@ -1,4 +1,4 @@
-  <div ng-show="{{accessCode!=2468}}">
+  <div ng-show="{{accessCode==2468}}"> <!-- change later from == to != -->
     <p>Your access code is incorect.</p>
     <p><a href="/#/login">Re-enter your access code</a></p>
   </div>
@@ -8,6 +8,7 @@
       <div id="sidebar" class="span2">
         <!--Sidebar content-->
 
+        <!--
 		Community: 
 		<select class="input-small" ng-model="community">
 		  <option value="" selected>All</option>
@@ -15,19 +16,22 @@
 		  <option value="Eastside">Eastside</option>
 		  <option value="Vashon">Vashon</option>
 		</select><br>
+        -->
 
-		<input type="text" class="input-small" placeholder="Search text" ng-model="search">
-		<br>
+		<input type="text" class="input-small" placeholder="Search ads" ng-model="search">
+		<br><br>
 
+        <input type="text" ng-model="numResults" class="input-mini"> Ads <br>
 		<select class="input-small" name="topxresults" ng-model="numResults">
+		  <option value="10">Top 10</option>
 		  <option value="20">Top 20</option>
 		  <option value="100">Top 100</option>
 		  <option value="200">Top 200</option>
 		  <option value="500" selected>Top 500</option>
-		</select> Results <br>
-		<!--<small>(not working yet)</small><br><br>-->
+		</select> Ads <br><br>
 
-		<em>Sorted by date updated</em>
+		<em>Sorted by date updated</em><br><br>
+		<em>All edits are saved while this page is open</em>
 		<br><br>
 
 		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Details</button>
@@ -43,14 +47,32 @@
 			Please make sure you uploaded your CSV files correctly.
 		</div>
 
+        <p class="lead">Edit the ads below, and choose how many ads to send in the left panel.<br>
+        Then click <strong>Preview Email</strong> at the bottom of this page</p><br>
+
         <ol class="offers">
-          <li ng-repeat="offer in offers | filter:community | filter:search | orderBy:offer['Last Updated'] | limitTo:numResults">
+          <li ng-show="!old" ng-repeat="offer in offers | orderBy:getLastUpdatedFromOffer:true | filter:search | limitTo:numResults">
+			<h4>
+				{{offer.type.toUpperCase()}}: <a href="{{offer.url}}" target="_blank">{{offer.title}}</a> &mdash; {{ offer.first }}
+			</h4>
+            <!--<h2>Sorting based on: {{ parseDate(offer.lastUpdated) }}</h2>-->
+
+            <textarea name="textareaBody" style="width: 70%" rows="5" ng-model="offer.body">{{ offer.body }}</textarea><br>
+            Last Updated: <em>{{offer['lastUpdated']}}</em><br>
+			Category: <em>{{offer.category}}</em>, Ad Id: <em>{{offer['id']}}</em><br>
+			Expires: <em>{{offer.expiry}}</em>
+			<br>
+			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
+				<small>Full offer:{{offer|json}}</small>
+			</div>
+			<hr>
+          </li>
+          <li ng-show="old" ng-repeat="offer in offers | filter:community | filter:search | orderBy:offer['Last Updated'] | limitTo:numResults">
 			<h4>
 				<a href="{{offer.URL}}" target="_blank">{{offer.Title}}</a> &mdash; {{offer['First Name']}}
 			</h4>
 
             <textarea name="textareaBody" style="width: 70%" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g').trim() }}</textarea><br>
-            <!--Link: <a href={{offer.URL}} target="_blank">{{offer.URL}}</a>-->
 			Category: <em>{{offer['Top-Level Category']}}</em>
 			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
 			<br><em>Created: {{offer['Last Updated']}}</em>, <em>Expires: {{offer['Expiration Date']}}</em>
@@ -62,16 +84,15 @@
           </li>
         </ol>
 
-		<div ng-show="false">
-			<button class="btn btn-success">Send mail!</button>
-			<br><br>
-			<small>Doesn't work yet</small>
+		<div ng-show="true">
+			<button class="btn btn-success" ng-click="previewMail()">Preview Email</button>
 		</div>
 
 		<div style="padding: 7px" ng-model="sendErrors" ng-show="sendErrors" class="span5 alert alert-error" ng-init="">
 			<strong>{{sendErrors}}</strong>
 		</div>
 
+        <br><br>
 
       </div>
     </div>

@@ -1,12 +1,20 @@
 #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
 
 import os
+import string
+import json
+import sys
 import csv
 from datetime import datetime
 from collections import defaultdict
 
 from mandrillEmailSender import sendEmails
 
+from utils import dbgInfo, dbgWarn, dbgErr, dbgFatal, DBG
+import utils
+utils.DBG = False
+DBG = False
 uploadDir = 'app/uploads/'
 csvfilenames = ["communityFile", "memberFile", "servicesFile" ]
 inputcsv = [ uploadDir + filename for filename in csvfilenames ]
@@ -57,6 +65,26 @@ def get_comm_dict(comm_file):
             data[int(row[0])] = row[2]
     return data
 
+def remove_bad_characters(yourstring):
+    DELETE_CHARS = True
+    if DELETE_CHARS:    # delete chars but also some spaces
+        # this works well but removes some spaces next to bad chars for some reason
+        return "".join(i for i in yourstring if ord(i)<128)
+    else:   # try to delete chars (doesn't work, they are preserved)
+        chars_to_delete = ['â', '€', '™', 'Â']
+        #chars_to_delete = "Ââ€™"
+        #chars_to_delete = "Â"
+        #yourstring = unicode(yourstring, 'utf-8')
+        #yourstring = unicode(yourstring, 'utf-8').encode('ascii', 'ignore')
+
+        for c in chars_to_delete:
+            yourstring.replace(c, '')
+
+        return yourstring
+
+    # translate's deletechars argument cannot exist for unicode
+    #return yourstring.translate(None, chars_to_delete).strip()
+    
 def get_ads(offer_file):
     ''' Builds up dicts for offers and requests in the ads csv file '''
     offers = defaultdict(lambda: defaultdict(lambda: 'filler')) # {ad_id: {details.}}
@@ -67,28 +95,41 @@ def get_ads(offer_file):
         read = csv.reader(f)
         next(read, None) # skip the header
         for row in read:
-            row = unicode(row)
+            dbgInfo( "row[1]:", row[1] )
+            #row = unicode(row)
             try:
                 ad_id = int(row[1])
-            except ValueError:
+                dbgInfo("ad_id", ad_id)
+            except ValueError as e:
+                dbgErr("Value error for row:", type(row))
+                dbgErr("Exception:", e)
                 continue
             expiry = row[13]
+            dbgInfo("expiry", row[13])
             if not is_expired(expiry):
                 ad_type = row[2]
                 if ad_type == 'Offer':
-                    offers[ad_id]["first"] = unicode(row[6])
-                    offers[ad_id]["category"] = row[11]
+                    offers[ad_id]["first"] = remove_bad_characters(row[6])
+                    offers[ad_id]["category"] = remove_bad_characters(row[11])
                     offers[ad_id]["expiry"] = expiry
                     offers[ad_id]["url"] = row[14]
-                    offers[ad_id]["title"] = unicode(row[15])
-                    offers[ad_id]["body"] = unicode(row[16])
+                    offers[ad_id]["title"] = remove_bad_characters(row[15])
+                    offers[ad_id]["body"] = remove_bad_characters(row[16])
+                    offers[ad_id]["lastUpdated"] = row[10]
+                    offers[ad_id]["id"] = row[1]
+                    offers[ad_id]["type"] = row[2]
+                    dbgInfo( "offer body: " + offers[ad_id]['body'] )
                 elif ad_type == 'Request':
-                    requests[ad_id]["first"] = unicode(row[6])
-                    requests[ad_id]["category"] = row[11]
+                    requests[ad_id]["first"] = remove_bad_characters(row[6])
+                    requests[ad_id]["category"] = remove_bad_characters(row[11])
                     requests[ad_id]["expiry"] = expiry
                     requests[ad_id]["url"] = row[14]
-                    requests[ad_id]["title"] = unicode(row[15])
-                    requests[ad_id]["body"] = unicode(row[16])
+                    requests[ad_id]["title"] = remove_bad_characters(row[15])
+                    requests[ad_id]["body"] = remove_bad_characters(row[16])
+                    requests[ad_id]["lastUpdated"] = row[10]
+                    requests[ad_id]["id"] = row[1]
+                    requests[ad_id]["type"] = row[2]
+                    dbgInfo( "request body: " + requests[ad_id]['body'] )
     return offers, requests
     
 def combine_member_data(member_data, comm_data):
@@ -100,21 +141,47 @@ def combine_member_data(member_data, comm_data):
     return member_data
 
 if __name__ == '__main__':
-    import json, sys
     #member_file, comm_file, offer_file = get_file_names()
-    member_file, comm_file, offer_file = sys.argv[1:4]
+    member_file, comm_file, offer_file = sys.argv[2], sys.argv[1], sys.argv[3]
     member_data = get_member_dict(member_file)
     comm_data = get_comm_dict(comm_file)
     offers, requests = get_ads(offer_file)
+    dbgInfo( "Offers: ", offers.keys() )
+    print "\n\n"
+    dbgInfo( "Requests: ", requests.keys() )
     full_member_data = combine_member_data(member_data, comm_data)
 
     TEST_FRONTEND = True
     if TEST_FRONTEND:
-        f = open(inputcsv[2] + ".json", 'w')
+        f = open(inputcsv[1] + ".json", 'w')
         f.write( json.dumps( full_member_data ) );
         f.close()
-        print "(process.py) wrote file", inputcsv[2] + ".json"
-        sys.exit()
+        print "(process.py) wrote file", inputcsv[1] + ".json"
+
+        f = open(inputcsv[2] + "-offers.json", 'w')
+        f.write( json.dumps( offers ) );
+        f.close()
+        print "(process.py) wrote file", inputcsv[2] + "-offers.json"
+
+        f = open(inputcsv[2] + "-requests.json", 'w')
+        f.write( json.dumps( requests ) );
+        f.close()
+        print "(process.py) wrote file", inputcsv[2] + "-requests.json"
+
+        f = open(inputcsv[2] + "-all.json", 'w')
+        #f.write( json.dumps( offers.viewitems() & requests.viewitems() ) );
+        all_ads = dict()    # combine requests and offers
+        all_ads.update(offers)
+        all_ads.update(requests)
+
+        all_ads_array = []  # turn into array for easier sorting in angularjs
+        for key in all_ads:
+            all_ads_array.append(all_ads[key])
+
+        f.write( json.dumps(all_ads_array) )
+        #f.write( json.dumps(offers) + json.dumps(requests) );
+        f.close()
+        print "(process.py) wrote file", inputcsv[2] + "-all.json"
     
     fromAddress = 'dasher@tbanks.org' # May be taken as input 
     subject = 'Offers of the Day'   
@@ -145,9 +212,10 @@ if __name__ == '__main__':
         reqText += reqTitle + '\n'
         reqHtml += '<li> <a href="' + reqUrl + '">' + reqTitle + ' </a></li>'
     
-    emailHtml.replace('{{list_of_new_requests}}', reqHtml)
-    emailText.replace('{{list_of_new_requests}}', reqText)
-    emailHtml.replace('{{list_of_new_offers}}', offerHtml)
-    emailText.replace('{{list_of_new_offers}}', offerText)
+    emailHtml = emailHtml.replace('{{list_of_new_requests}}', reqHtml)
+    emailText = emailText.replace('{{list_of_new_requests}}', reqText)
+    emailHtml = emailHtml.replace('{{list_of_new_offers}}', offerHtml)
+    emailText = emailText.replace('{{list_of_new_offers}}', offerText)
+    print "\nRequests:", emailText
     #sendEmails(subject, fromAddress, emailHtml, emailText, full_member_data)
     
