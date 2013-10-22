@@ -66,21 +66,20 @@ def get_comm_dict(comm_file):
     return data
 
 def remove_bad_characters(yourstring):
-    DELETE_CHARS = True
-    if DELETE_CHARS:    # delete chars but also some spaces
+    DELETE_CHARS = False
+    if DELETE_CHARS:    # delete chars but has bug where it also deletes some spaces
         # this works well but removes some spaces next to bad chars for some reason
         return "".join(i for i in yourstring if ord(i)<128)
-    else:   # try to delete chars (doesn't work, they are preserved)
+    else:
         chars_to_delete = ['â', '€', '™', 'Â']
         #chars_to_delete = "Ââ€™"
-        #chars_to_delete = "Â"
         #yourstring = unicode(yourstring, 'utf-8')
         #yourstring = unicode(yourstring, 'utf-8').encode('ascii', 'ignore')
 
         for c in chars_to_delete:
-            yourstring.replace(c, '')
+            yourstring = yourstring.replace(c, '')
 
-        return yourstring
+        return yourstring.strip()
 
     # translate's deletechars argument cannot exist for unicode
     #return yourstring.translate(None, chars_to_delete).strip()
