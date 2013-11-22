@@ -22,6 +22,27 @@ app.use(express.bodyParser({ keepExtensions: true, uploadDir: 'initial-uploads' 
 
 
 function addUploadRoute() {
+	app.post('/preview_email', function(req, res) {
+		console.log("in preview_email");
+		var ADS_JSON_FILENAME = "uploads/ads.json";
+		//console.log("(node POST) edited json arg???: " + req.body.edited_json);
+		var bytesWritten = fs.writeFileSync(ADS_JSON_FILENAME, req.body.edited_json);
+		console.log("(node POST) Wrote " + bytesWritten + " bytes to " + ADS_JSON_FILENAME);
+		backendWrapper.previewEmail();
+		console.log("(node POST) executed wrapper previewEmail");
+		//res.write("hello");
+
+		TXT_EMAIL_PREVIEW_FILENAME = "email-preview.txt";
+		HTML_EMAIL_PREVIEW_FILENAME = "assets/email-preview.html";
+		var txt_email = fs.readFileSync(TXT_EMAIL_PREVIEW_FILENAME, encoding='utf-8');
+		var html_email = fs.readFileSync(HTML_EMAIL_PREVIEW_FILENAME, encoding='utf-8');
+		email_obj = { 'txt_email': txt_email, 'html_email': html_email };
+		//console.log(email_obj['txt_email']);
+		//console.log("RESPONSE JSON: " + JSON.stringify(email_obj));
+		//res.send(email_obj);
+		res.send(txt_email);	// only send txt email because html one is loaded in iframe
+	});
+
 	app.post('/upload', function(req, res) {
 		var NUM_FILES = 3;
 		var UPLOAD_DIR = "app/uploads";

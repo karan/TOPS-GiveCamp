@@ -1,45 +1,50 @@
   <div ng-show="{{accessCode==2468}}"> <!-- change later from == to != -->
-    <p>Your access code is incorect.</p>
-    <p><a href="/#/login">Re-enter your access code</a></p>
+	<p>Your access code is incorect.</p>
+	<p><a href="/#/login">Re-enter your access code</a></p>
   </div>
 
    <div class="row-fluid"> <!-- ng-show="{{accessCode==2468}}">-->
 
-      <div id="sidebar" class="span2">
-        <!--Sidebar content-->
+	  <div id="sidebar" class="span2">
+		<!--Sidebar content-->
 
-        <!--
-		Community: 
 		<select class="input-small" ng-model="community">
 		  <option value="" selected>All</option>
 		  <option value="Seattle">Seattle</option>
 		  <option value="Eastside">Eastside</option>
 		  <option value="Vashon">Vashon</option>
-		</select><br>
-        -->
+		  <option value="Other">Other</option>
+		</select> Communities <br><br>
+		
 
 		<input type="text" class="input-small" placeholder="Search ads" ng-model="search">
 		<br><br>
 
-        <input type="text" ng-model="numResults" class="input-mini"> Ads <br>
+		<input type="text" ng-model="numResults" class="input-mini"> Ads <br>
 		<select class="input-small" name="topxresults" ng-model="numResults">
 		  <option value="10">Top 10</option>
 		  <option value="20">Top 20</option>
+		  <option value="50">Top 50</option>
 		  <option value="100">Top 100</option>
-		  <option value="200">Top 200</option>
-		  <option value="500" selected>Top 500</option>
+		  <option value="200" selected>Top 200</option>
+		  <option value="500">Top 500</option>
 		</select> Ads <br><br>
+
+		<!--
+		<input type="text" ng-model="contentLength" ng-init="200" class="input-mini" placeholder="1000"> Content Length <br>
+		// Need to edit angular stuff for this and insert ... => might be easier to just leave it on the backend
+		-->
 
 		<em>Sorted by date updated</em><br><br>
 		<em>All edits are saved while this page is open</em>
 		<br><br>
 
-		<button class="btn btn-info" ng-click="showFull=!showFull" ng-init="showFull=false">Show Details</button>
+		<small><button class="btn btn-mini" ng-click="showFull=!showFull" ng-init="showFull=false">Debug</button></small>
 
-      </div>
+	  </div>
 
-      <div class="span10">
-        <!--Body content-->
+	  <div class="span10">
+		<!--Body content-->
 
 		<div style="padding: 7px" ng-model="errors" ng-show="errors" class="span5 alert alert-error" ng-init="">
 			<strong>{{errors}}</strong>
@@ -47,32 +52,32 @@
 			Please make sure you uploaded your CSV files correctly.
 		</div>
 
-        <p class="lead">Edit the ads below, and choose how many ads to send in the left panel.<br>
-        Then click <strong>Preview Email</strong> at the bottom of this page</p><br>
+		<p class="lead"><strong>Edit</strong> the ads below, and then click <strong>Preview Email</strong> at the bottom of this page</p><br>
+		<!--<strong>choose how many ads</strong> to send in the left panel.<br>-->
 
-        <ol class="offers">
-          <li ng-show="!old" ng-repeat="offer in offers | orderBy:getLastUpdatedFromOffer:true | filter:search | limitTo:numResults">
+		<ol class="offers">
+		  <li ng-show="!old" ng-repeat="offer in offers | orderBy:getLastUpdatedFromOffer:true | filter:getCommunityFromOffer | filter:search | limitTo:numResults">
 			<h4>
-				{{offer.type.toUpperCase()}}: <a href="{{offer.url}}" target="_blank">{{offer.title}}</a> &mdash; {{ offer.first }}
+				{{offer.community.toUpperCase()}} {{offer.type.toUpperCase()}}: <a href="{{offer.url}}" target="_blank">{{offer.title}}</a> &mdash; {{ offer.first }}
 			</h4>
-            <!--<h2>Sorting based on: {{ parseDate(offer.lastUpdated) }}</h2>-->
+			<!--<h2>Sorting based on: {{ parseDate(offer.lastUpdated) }}</h2>-->
 
-            <textarea name="textareaBody" style="width: 70%" rows="5" ng-model="offer.body">{{ offer.body }}</textarea><br>
-            Last Updated: <em>{{offer['lastUpdated']}}</em><br>
-			Category: <em>{{offer.category}}</em>, Ad Id: <em>{{offer['id']}}</em><br>
+			<textarea name="textareaBody" style="width: 70%" rows="5" ng-model="offer.body">{{ offer.body }}</textarea><br>
+			Last Updated: <em>{{offer['lastUpdated']}}</em> | 
+			Category: <em>{{offer.category}}</em> | Ad Id: <em>{{offer['id']}}</em> | 
 			Expires: <em>{{offer.expiry}}</em>
 			<br>
 			<div style="padding: 3px; border: 1px solid green" ng-show="showFull">
 				<small>Full offer:{{offer|json}}</small>
 			</div>
 			<hr>
-          </li>
-          <li ng-show="old" ng-repeat="offer in offers | filter:community | filter:search | orderBy:offer['Last Updated'] | limitTo:numResults">
+		  </li>
+		  <li ng-show="old" ng-repeat="offer in offers | filter:community | filter:search | orderBy:offer['Last Updated'] | limitTo:numResults">
 			<h4>
 				<a href="{{offer.URL}}" target="_blank">{{offer.Title}}</a> &mdash; {{offer['First Name']}}
 			</h4>
 
-            <textarea name="textareaBody" style="width: 70%" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g').trim() }}</textarea><br>
+			<textarea name="textareaBody" rows="5">{{offer.Body.replace('Â ', '', 'g').replace('Â', '', 'g').trim() }}</textarea><br>
 			Category: <em>{{offer['Top-Level Category']}}</em>
 			<br>Ad Id: <em>{{offer['Ad ID']}}</em>
 			<br><em>Created: {{offer['Last Updated']}}</em>, <em>Expires: {{offer['Expiration Date']}}</em>
@@ -81,18 +86,40 @@
 				<small>Full offer:{{offer|json}}</small>
 			</div>
 			<hr>
-          </li>
-        </ol>
+		  </li>
+		</ol>
 
 		<div ng-show="true">
 			<button class="btn btn-success" ng-click="previewMail()">Preview Email</button>
 		</div>
+		<br>
+		<p>
+			Emails are currently limited to no more than <em>20</em> combined ads and no more than <em>197</em> characters for the text body.
+		</p>
+
+		<div ng-show="showPreview">
+			<br><br>
+			<h3>Text email preview:</h3>
+			<!--<p>Make any changes above and click preview to refresh the text</p>-->
+			<textarea name="preview1" class="well" style="width: 70%; height: 50%;" rows="20">{{previewText}}</textarea>
+			<br>
+			<hr>
+
+			<h3>HTML email preview:</h3>
+			<!--<p>Changes require reloading this page for them to appear in here</p>-->
+			<iframe id="htmlIframe" src="assets/email-preview.html" width="800px" height="500px"></iframe>
+			<!--
+			<div name="previewHtml" class="well" style="width: 70%;" ng-bind-html="previewHtml" id="previewHtml">
+			</div><br>-->
+			<br><br>
+		</div>
+
 
 		<div style="padding: 7px" ng-model="sendErrors" ng-show="sendErrors" class="span5 alert alert-error" ng-init="">
 			<strong>{{sendErrors}}</strong>
 		</div>
 
-        <br><br>
+		<br><br>
 
-      </div>
-    </div>
+	  </div>
+	</div>

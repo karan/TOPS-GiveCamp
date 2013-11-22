@@ -1,12 +1,12 @@
   <div ng-show="{{accessCode!=2468}}">
-    <p>Your access code is incorect.</p>
-    <p><a href="/#/login">Re-enter your access code</a></p>
+	<p>Your access code is incorect.</p>
+	<p><a href="/#/login">Re-enter your access code</a></p>
   </div>
 
    <div class="row-fluid"> <!-- ng-show="{{accessCode==2468}}">-->
 
-      <div id="sidebar" class="span2" ng-show="$location.path() == '/edit'">
-        <!--Sidebar content-->
+	  <div id="sidebar" class="span2" ng-show="$location.path() == '/edit'">
+		<!--Sidebar content-->
 
 		Community: 
 		<select class="input-small" ng-model="community">
@@ -30,10 +30,10 @@
 
 		<br><span ng-model="errors"></span>
 
-      </div>
+	  </div>
 
-      <div class="span10">
-        <!--Body content-->
+	  <div class="span10">
+		<!--Body content-->
 		<form class="" ng-submit="showLoading()" method="POST" enctype="multipart/form-data" action="/upload">
 		<!--
 		<form ng-submit="submit()" enctype="multipart/form-data" method="post"  id="csvForm">
@@ -61,6 +61,6 @@
 			<br>
 			<div class="alert {{alertType}}" ng-show="didSubmit">{{submitAlert}}</div>
 		</form>
-      </div>
-    </div>
+	  </div>
+	</div>
 

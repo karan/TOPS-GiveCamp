@@ -4,7 +4,8 @@
   "dependencies": {
     "express": "2.5.x",
     "node-static": "0.7.0",
-    "q": "~0.9.7"
+    "q": "~0.9.7",
+    "execSync": "~1.0.1-pre"
   },
   "engines": {
     "node": "0.10.x",

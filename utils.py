@@ -1,8 +1,14 @@
 #!/usr/bin/python
 import os
-DBG = True
+import types
 
-__all__ = ['dbgFatal', 'dbgWarn', 'dbgErr', 'dbgInfo']
+DBG = True
+DO_INTROSPECTION = True
+
+if DO_INTROSPECTION:
+	import inspect
+
+__all__ = ['dbgFatal', 'dbgWarn', 'dbgErr', 'dbgInfo', 'DBG']
 
 # Colors - *NIX only (http://en.wikipedia.org/wiki/ANSI_escape_code)
 if os.name=="posix":
@@ -32,10 +38,28 @@ def dbgInfo(desc, value=''):
 def printMsg(atype, desc, value=''):
 	"""Prints a string to stdout with your message"""
 	if not DBG: return
-	if value:
-		print atype + ':', desc + ' -', str(value)
+
+	if DO_INTROSPECTION:
+		# avoid leaks due to references to frame objects
+		frm = inspect.stack()[2]
+		try:
+			#module_name, _, function_name = inspect.getmodule(frm)
+			module_name = frm[1]
+			line_number = str(frm[2])
+			function_name = frm[3]
+			module_and_caller = "[" + module_name + " " + line_number + " -> " + function_name + "] "
+		finally:
+			del frm
 	else:
-		print atype + ':', desc
+		module_and_caller = ''
+
+	if value:
+		if type(value) == types.UnicodeType:
+			print atype + ':', module_and_caller + desc + ' -', unicode(value)
+		else:
+			print atype + ':', module_and_caller + desc + ' -', str(value)
+	else:
+		print atype + ':', module_and_caller + desc
 
 def makeMsg(atype, desc, value=''):
 	"""Return a string with your message"""
